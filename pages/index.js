@@ -1,11 +1,6 @@
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { motion } from "framer-motion";
 
-export default function ExpenseTracker() {
+export default function Trakko() {
   const [expenses, setExpenses] = useState([]);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -29,30 +24,37 @@ export default function ExpenseTracker() {
   };
 
   return (
-    <motion.div className="p-6 space-y-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <Card className="max-w-md mx-auto">
-        <CardContent className="space-y-4">
-          <div>
-            <Label>Title</Label>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Groceries" />
-          </div>
-          <div>
-            <Label>Amount</Label>
-            <Input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="e.g. 20.00"
-            />
-          </div>
-          <Button onClick={addExpense} className="w-full">Add Expense</Button>
-          <Button onClick={exportToGoogleSheet} className="w-full" variant="secondary">
-            Export to Google Sheet
-          </Button>
-        </CardContent>
-      </Card>
+    <div className="p-6 max-w-md mx-auto space-y-6">
+      <div className="bg-white shadow-lg rounded-xl p-4 space-y-4 border">
+        <div>
+          <label className="block text-sm font-medium">Title</label>
+          <input
+            className="mt-1 p-2 w-full border rounded"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="e.g. Groceries"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Amount</label>
+          <input
+            type="number"
+            className="mt-1 p-2 w-full border rounded"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="e.g. 20.00"
+          />
+        </div>
+        <button onClick={addExpense} className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+          Add Expense
+        </button>
+        <button onClick={exportToGoogleSheet} className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
+          Export to Google Sheet
+        </button>
+      </div>
 
-      <div className="max-w-md mx-auto">
+      <div className="bg-white shadow-md rounded-xl p-4 border">
+        {expenses.length === 0 && <p className="text-gray-500">No expenses added.</p>}
         {expenses.map((e, i) => (
           <div key={i} className="flex justify-between py-2 border-b">
             <span>{e.title}</span>
@@ -60,6 +62,6 @@ export default function ExpenseTracker() {
           </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }
